@@ -1,0 +1,84 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Beer {
+  id          String   @id @default(cuid())
+  name        String
+  style       String
+  origin      String   @default("Local")
+  description String?
+  ibu         Int
+  abv         Float
+  imageUrl    String?
+  onTap       Boolean  @default(true)
+  bestseller  Boolean  @default(false)
+  priceHalf   Float
+  pricePint   Float
+  priceGrowler Float?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  foodPairings Food[]  @relation("FoodBeerPairing")
+}
+
+model Food {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  description String?
+  price       Float
+  imageUrl    String?
+  available   Boolean  @default(true)
+
+  pairingBeerId String?
+  pairingBeer   Beer?   @relation("FoodBeerPairing", fields: [pairingBeerId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Drink {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  description String?
+  price       Float
+  imageUrl    String?
+  available   Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model HappyHour {
+  id         String  @id @default(cuid())
+  startTime  String
+  endTime    String
+  discount   Int     @default(20)
+  daysOfWeek String  // JSON array stored as string: "[1,2,3,4,5]"
+  isActive   Boolean @default(true)
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+}
+
+model Style {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+}

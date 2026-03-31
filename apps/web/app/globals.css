@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-brew-bg text-brew-text font-sans;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-brew-bg; }
+  ::-webkit-scrollbar-thumb { @apply bg-brew-border; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-brew-text; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brew-text text-brew-bg font-bold text-sm tracking-widest uppercase px-8 py-3 transition-all duration-300 hover:bg-brew-cream-dim;
+  }
+  .btn-outline {
+    @apply border-2 border-brew-border text-brew-text font-bold text-sm tracking-widest uppercase px-8 py-3 transition-all duration-300 hover:bg-brew-text hover:text-brew-bg;
+  }
+  .btn-ghost {
+    @apply text-brew-text-dim text-sm font-medium transition-colors duration-200 hover:text-brew-cream;
+  }
+  .card {
+    @apply bg-brew-bg border border-brew-border transition-all duration-300;
+  }
+  .card-hover {
+    @apply hover:border-brew-text-dim/50;
+  }
+  .section-pre {
+    @apply text-brew-text-dim text-xs font-sans tracking-[0.3rem] uppercase mb-4 block;
+  }
+  .section-title {
+    @apply font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-brew-cream leading-none mb-6 uppercase tracking-wide;
+  }
+  .section-sub {
+    @apply text-brew-text-dim text-lg max-w-lg mx-auto font-sans;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide;
+  }
+  .badge-style {
+    @apply badge bg-brew-bg3 border border-brew-border text-brew-text-dim;
+  }
+  .badge-on-tap {
+    @apply badge bg-white/10 border border-white/20 text-white;
+  }
+  .badge-sold-out {
+    @apply badge bg-brew-bg2 border border-brew-border text-brew-text-dim opacity-50;
+  }
+  .input-field {
+    @apply w-full px-4 py-2.5 bg-brew-bg3 border border-brew-border rounded-lg text-brew-text text-sm outline-none transition-all duration-200 focus:border-brew-text focus:ring-2 focus:ring-brew-text/20 placeholder:text-brew-text-dim;
+  }
+  .meter-bar {
+    @apply h-1.5 rounded-full bg-gradient-to-r from-brew-text-dim to-brew-text transition-all duration-700;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brew-text-dim to-brew-cream;
+  }
+}
