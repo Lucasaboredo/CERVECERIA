@@ -8,13 +8,7 @@ import FoodSection from '@/components/FoodSection'
 import type { Beer, Food, HappyHourStatus, Style } from '@/lib/api'
 import { Beer as BeerIcon, Utensils, Wheat, RefreshCcw, Award } from 'lucide-react'
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
-
-async function fetchJSON<T>(url: string): Promise<T> {
-  const res = await fetch(url, { cache: 'no-store' })
-  if (!res.ok) throw new Error('fetch error')
-  return res.json()
-}
+import { api } from '@/lib/api'
 
 export default function HomePage() {
   const [beers, setBeers] = useState<Beer[]>([])
@@ -25,10 +19,10 @@ export default function HomePage() {
 
   useEffect(() => {
     Promise.all([
-      fetchJSON<Beer[]>(`${API}/beers`).catch(() => [] as Beer[]),
-      fetchJSON<Food[]>(`${API}/food`).catch(() => [] as Food[]),
-      fetchJSON<HappyHourStatus>(`${API}/happy-hour/status`).catch(() => null),
-      fetchJSON<Style[]>(`${API}/styles`).catch(() => [] as Style[]),
+      api.beers.getAll().catch(() => [] as Beer[]),
+      api.food.getAll().catch(() => [] as Food[]),
+      api.happyHour.getStatus().catch(() => null),
+      api.styles.getAll().catch(() => [] as Style[]),
     ]).then(([b, f, hh, st]) => {
       setBeers(b)
       setFoods(f)

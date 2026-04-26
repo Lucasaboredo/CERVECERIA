@@ -59,16 +59,23 @@ export interface Style {
   createdAt: string
 }
 
+import { getMockData } from './mockData'
+
 async function fetchAPI<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_URL}/${path}`, {
-    ...init,
-    headers: { 'Content-Type': 'application/json', ...init?.headers },
-  })
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ message: res.statusText }))
-    throw new Error(err.message || 'API error')
+  try {
+    const res = await fetch(`${API_URL}/${path}`, {
+      ...init,
+      headers: { 'Content-Type': 'application/json', ...init?.headers },
+    })
+    if (!res.ok) {
+      throw new Error('API error')
+    }
+    return await res.json()
+  } catch (error) {
+    // Fallback to static mock data if the API is offline (e.g. deployed to Vercel without backend)
+    console.warn(`[Mock Fallback] API offline or failed, serving static data for /${path}`)
+    return getMockData(path) as T
   }
-  return res.json()
 }
 
 // ── PUBLIC ────────────────────────────────────────────────────
